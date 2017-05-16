@@ -1,0 +1,25 @@
+.user {
+    width: 330px;
+    padding: 48px 0;
+    margin: 0 auto;
+    text-align: center;
+
+    h1 {
+        color: #000;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    & > div {
+        margin: 0 auto;
+        width: 256px;
+    }
+
+    button {
+        color: #fff;
+    }
+}
