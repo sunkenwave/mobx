@@ -14,6 +14,11 @@ export default class SubPage extends PureComponent {
 		};
 	}
 
+	componentWillMount() {
+      const { form, resetForm } = this.store;
+      if (!form.meta.isValid) resetForm();
+  }
+
 	render() {
 		const {
 			form, onFieldChange

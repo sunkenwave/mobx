@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter } from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { TextField } from 'material-ui';
 import CustomTableRow from "./ui/CustomTableRow";
 
 @inject("store")
@@ -8,24 +9,36 @@ import CustomTableRow from "./ui/CustomTableRow";
 export default class Home extends Component {
 	constructor(props) {
 		super(props);
-		this.store = this.props.store;
+		this.store = this.props.store.appState;
 	}
 
 	render() {
 		const {
 			tableHeaders,
-			users,
-			deleteRow
-		} = this.store.appState;
+      filterUsers,
+			deleteRow,
+      filter,
+      onFilterChange
+		} = this.store;
 
 		const customStyle = {
 			verticalAlign: 'middle',
 			fontSize: '16px'
 		};
 
+		const users = filterUsers();
+
 		return (
 			<div className="page home">
-				<Table selectable={false}>
+        <TextField
+          hintText="Filter by ids, names or companies"
+          type="text"
+          id="filter"
+          value={filter}
+          onChange={onFilterChange}
+          className="filter"
+        />
+				<Table selectable={false} className="table">
 					<TableHeader displaySelectAll={false} adjustForCheckbox={false}>
 						<TableRow>
 							{!!tableHeaders && tableHeaders.map((header, index) => (
@@ -40,7 +53,16 @@ export default class Home extends Component {
 						</TableRow>
 					</TableHeader>
 					<TableBody showRowHover stripedRows displayRowCheckbox={false}>
-						{!!users.length && users.map((row, index) => (
+            {!users.length &&
+							<TableRow>
+								<TableRowColumn>
+									<p className="not-found">
+										Users not found
+									</p>
+								</TableRowColumn>
+							</TableRow>
+            }
+						{!!users.length && users.map(row => (
 							<CustomTableRow
 								key={row.id}
 								deleteRow={deleteRow}

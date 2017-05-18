@@ -12,6 +12,7 @@ export default class CustomTextField extends PureComponent {
     return (
       <TextField
         hintText={label}
+        id={label.toLowerCase()}
         type={type}
         value={value}
         errorText={error}
